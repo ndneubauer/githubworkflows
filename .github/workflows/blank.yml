@@ -31,17 +31,17 @@ jobs:
           draft: true
           prerelease: false
           
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: artifact.tar.gz          
+          
       - name: Download
         uses: actions/download-artifact@v2
         with:
           name: artifact
           path: ./
-
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: artifact
-          path: artifact.tar.gz
 
       - name: Upload release
         uses: actions/upload-release-asset@v1

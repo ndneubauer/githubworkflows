@@ -68,7 +68,6 @@ jobs:
       - name: CDK
         run: |
           sudo npm install -g aws-cdk
-          cd cdk
           pip install --upgrade -r requirements.txt
           cdk deploy --require-approval never --all
         shell: bash

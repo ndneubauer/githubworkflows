@@ -1,0 +1,7 @@
+# CDK
+cdk.out
+.venv
+.aws-sam
+.idea
+__pycache__
+.DS_Store

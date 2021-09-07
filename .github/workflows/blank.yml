@@ -55,11 +55,6 @@ jobs:
       - name: Download package
         uses: actions/download-artifact@v2
 
-      - name: Bash
-        run: |
-          cd artifact
-          ls | while read i; do echo filename: $i; done
-
       - name: Setup nodejs
         uses: actions/setup-node@v1
         with:
@@ -68,6 +63,7 @@ jobs:
       - name: CDK
         run: |
           cd artifact
+          ls | while read i; do echo filename: $i; done
           sudo npm install -g aws-cdk
           cd cdk
           pip install --upgrade -r requirements.txt

@@ -1,20 +1,13 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the feature branches
   push:
-    branches: [ "feature/**" ]
-  pull_request:
-    branches: [ "feature/**" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    tags:
+      - "v*"
 
 jobs:
   build:
+    if: contains(github.event.base_ref, 'feature')
     runs-on: ubuntu-latest
     environment:
       name: build
@@ -26,19 +19,36 @@ jobs:
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-      # Allows for approval
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          # Unpublished release
           draft: true
           prerelease: false
+          
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: "./example.txt"        
+          
+      - name: Download
+        uses: actions/download-artifact@v2
 
       - name: Upload release
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_content_type: application/zip
+          asset_path: "./example.txt"
+          asset_name: "${{ github.ref }}"
+          asset_content_type: text/plain
                     
   uat:
-    # Only runs once approval and upload have occurred
+    # Only runs once approval and upload have occurred - Environment needs 1 or more reviewer(s)!
     needs: build
     runs-on: ubuntu-latest
     environment:
@@ -47,3 +57,8 @@ jobs:
     steps:
       - name: Download package
         uses: actions/download-artifact@v2
+        
+      - name: Bash
+        run: |
+          cd artifact
+          ls | while read i; do echo filename: $i; done

@@ -24,7 +24,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          # Allows for approval
+          # Unpublished release
           draft: true
           prerelease: false
           
@@ -36,9 +36,6 @@ jobs:
           
       - name: Download
         uses: actions/download-artifact@v2
-        with:
-          name: artifact
-          path: ./
 
       - name: Upload release
         uses: actions/upload-release-asset@v1
@@ -51,7 +48,7 @@ jobs:
           asset_content_type: text/plain
                     
   uat:
-    # Only runs once approval and upload have occurred
+    # Only runs once approval and upload have occurred - Environment needs 1 or more reviewer(s)!
     needs: build
     runs-on: ubuntu-latest
     environment:
@@ -60,3 +57,7 @@ jobs:
     steps:
       - name: Download package
         uses: actions/download-artifact@v2
+        
+      - name: Bash
+        run: |
+          ls | while read i; do echo filename: $i; done

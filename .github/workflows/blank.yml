@@ -44,9 +44,9 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./
+          asset_path: "./example.txt"
           asset_name: "${{ github.ref }}"
-          asset_content_type: application/zip
+          asset_content_type: text/plain
                     
   uat:
     # Only runs once approval and upload have occurred

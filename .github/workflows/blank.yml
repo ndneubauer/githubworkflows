@@ -5,9 +5,6 @@ on:
     tags:
       - "v*"
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 jobs:
   build:
     if: contains(github.event.base_ref, 'feature')
@@ -35,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: artifact
-          path: artifact.tar.gz          
+          path: *.tar.gz          
           
       - name: Download
         uses: actions/download-artifact@v2

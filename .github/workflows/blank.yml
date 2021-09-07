@@ -59,5 +59,4 @@ jobs:
         uses: actions/download-artifact@v2
         
       - name: Bash
-        run: |
-          ls | while read i; do echo filename: $i; done
+        run: cat artifact

@@ -9,14 +9,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  githubcontext:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
   build:
     if: contains(github.event.base_ref, 'feature')
     runs-on: ubuntu-latest

@@ -34,6 +34,12 @@ jobs:
           name: artifact
           path: "./*"        
           
+      - name: Download
+        uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: ./
+
       - name: Upload release
         uses: actions/upload-release-asset@v1
         with:
